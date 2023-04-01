@@ -3,81 +3,87 @@ package javaassignment2;
 import java.util.Scanner;
 
 public class Main {
-	static void printAsk() {
-		System.out.print("Do yo u want to purchase something else (Yes: 1, No: 0");
+	/*
+	 * function for asking additional purchase check the user's choice and return
+	 * thats choice boolean
+	 */
+	static boolean askAdditionalPurchase() {
+		Scanner input = new Scanner(System.in);
+		System.out.print("Do you want to purchase something else (Yes: 1, No: 0): ");
+		int choice = input.nextInt();// for storing user's choice
+		// if user's choice is 1,return true
+		if (choice == 1){
+			return true;
+		}
+		//if user's choice is 0,return false
+		else if (choice == 0) {
+			
+			return false;
+		}
+		//if user's choice is not 0 or 1,Print error message
+		System.err.println("Wrong choice input,Please enter 0 or 1");
+		//return this method again,so User must input O or 1 again. 
+		return askAdditionalPurchase();
 	}
-	static boolean askMorePurchase(int choice) {
-		if(choice==1) return true;
 
-		return false;
-		
-	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner input = new Scanner(System.in);
-		String menu = "==== Welcome Apple Korea ====\n"+
-		"What do you want to buy?\n"+"Choose 1 for MacBook\n"+
-				"Choose 2 for iPhone\n"+"Choose 3 for AirPods\n"+
-				"Choose 0 for Exit\n"+"Please enter your choice: ";
-		int choice = 5;
-		String model,color;
-		double quantity;
-		int size,memory;
-		while(choice!=0) {
-			System.out.println(menu);
+		//for storing the main choice menu 
+		String menu = "==== Welcome Apple Korea ====\n" + "What do you want to buy?\n" + "Choose 1 for MacBook\n"
+				+ "Choose 2 for iPhone\n" + "Choose 3 for AirPods\n" + "Choose 0 for Exit\n"
+				+ "Please enter your choice: ";
+		int choice = 5;//for storing the user's choice
+		/*
+		 * Iterating for printing menu and getting the user's choice
+		 * then depending on choice,execute each function
+		 * if choice is 0,break the loop
+		 */
+		while (choice != 0) {
+			System.out.print(menu);
 			choice = input.nextInt();
-			if(choice ==1) {
-				System.out.print("Base cost of the MacBook: $1000\n");
-				System.out.println("Which model do you want (Pro or Air): ");
-				model = input.next();
-				System.out.println("Size (13, 14, 16): ");
-				size = input.nextInt();
-				System.out.println("Color (base, Gold, Silver: ");
-				color = input.next();
-				System.out.println("Memory (128, 256, 512): ") ;
-				memory = input.nextInt();
-				System.out.println("How many do you want to buy: ");
-				quantity = input.nextDouble();
-				MacBook mac = new MacBook(1000,1000,model,quantity,memory,size,color);
+			//if choice is 1,execute MacBook sale system 
+			if (choice == 1) {
+				MacBook mac = new MacBook(1000, 1000);//initialize base price and total cost
+				mac.getUserSelection();
 				mac.calculateCost();
-				printAsk();
-				choice= input.nextInt();
-				if(askMorePurchase(choice)) continue;
-				else break;
-				
-			}
-			else if(choice ==2) {
-				System.out.print("Base cost of the iPhone: $800\n");
-				System.out.println("Which model do you want (iPhone12 or iPhone13): ");
-				model = input.next();
-				System.out.println("Color (base, Gold, Silver: ");
-				color = input.next();
-				System.out.println("Memory (64, 128, 256, 512): ") ;
-				memory = input.nextInt();
-				System.out.println("How many do you want to buy: ");
-				quantity = input.nextDouble();
-				iPhone iphone = new iPhone(800,800,model,quantity,memory,color);
+				mac.printFinalBill();
+				//if user's choice is continuing purchase,continue loop 
+				if (askAdditionalPurchase())
+					continue;
+				//if user's choice is not continuing purchase,break loop
+				else
+					break;
+			} 
+			//if choice is 2,execute iPhone sale system
+			else if (choice == 2) {
+				iPhone iphone = new iPhone(800, 800);//initialize base price and total cost 
+				iphone.getUserSelection();
 				iphone.calculateCost();
-				printAsk();
-				choice= input.nextInt();
-				if(askMorePurchase(choice)) continue;
-				else break;
+				iphone.printFinalBill();
+				//if user's choice is continuing purchase,continue loop 
+				if (askAdditionalPurchase())
+					continue;
+				//if user's choice is not continuing purchase,break loop
+				else
+					break;
 			}
-			else if(choice ==3) {
-				System.out.print("Base cost of the AirPods: $800\n");
-				System.out.println("Which model do you want (3 or Pro or Max): ");
-				model = input.next();
-				System.out.println("How many do you want to buy: ");
-				quantity = input.nextDouble();
-				AirPods airpods = new AirPods(120,120,model,quantity);
+			//if choice is 2,execute AirPods sale system
+			else if (choice == 3) {
+				AirPods airpods = new AirPods(120, 120);//initialize base price and total cost
+				airpods.getUserSelection();
 				airpods.calculateCost();
-				printAsk();
-				choice= input.nextInt();
-				if(askMorePurchase(choice)) continue;
-				else break;
+				airpods.printFinalBill();
+				//if user's choice is continuing purchase,continue loop 
+				if (askAdditionalPurchase())
+					continue;
+				//if user's choice is not continuing purchase,break loop
+				else
+					break;
 			}
 		}
 		System.out.println("Thank you for your purchase");
-	}	
+		input.close();
+	}
 
 }
